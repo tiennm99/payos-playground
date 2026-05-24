@@ -6,12 +6,14 @@ const PAYMENT_PREFIX = 'payment:';
 /**
  * @typedef {Object} PaymentRecord
  * @property {string|number} orderCode
- * @property {'PENDING'|'PAID'|'CANCELLED'|string} status
+ * @property {'PENDING'|'PAID'|'CANCELLED'|'FAILED'|string} status
  * @property {number} amount
  * @property {string} description
  * @property {string} [checkoutUrl]
  * @property {string} [qrCode]
  * @property {number} createdAt
+ * @property {string} [payosCode]
+ * @property {string} [payosDesc]
  */
 
 /**

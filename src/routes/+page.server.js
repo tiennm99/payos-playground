@@ -21,8 +21,8 @@ export const actions = {
 		}
 
 		// Generate a unique order code — PayOS requires a positive integer
-		// Date.now() returns a 13-digit ms timestamp; PayOS accepts up to 2^53
-		const orderCode = Date.now();
+		// Date.now() returns a 13-digit ms timestamp; *1000+rand fits in 2^53 (≤9.007e15)
+		const orderCode = Date.now() * 1000 + Math.floor(Math.random() * 1000);
 
 		const baseUrl = env.PUBLIC_BASE_URL ?? `${new URL(request.url).origin}`;
 		const returnUrl = `${baseUrl}/payment/return`;

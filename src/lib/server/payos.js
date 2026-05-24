@@ -10,6 +10,8 @@ export function createPayOS() {
 	return new PayOS({
 		clientId: env.PAYOS_CLIENT_ID,
 		apiKey: env.PAYOS_API_KEY,
-		checksumKey: env.PAYOS_CHECKSUM_KEY
+		checksumKey: env.PAYOS_CHECKSUM_KEY,
+		// Pinned: prevents PAYOS_BASE_URL env override from exfiltrating credentials.
+		baseURL: 'https://api-merchant.payos.vn'
 	});
 }

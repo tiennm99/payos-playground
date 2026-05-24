@@ -34,15 +34,22 @@ export async function POST({ request, locals }) {
 		return json({ error: 'Invalid signature' }, { status: 401 });
 	}
 
-	// webhookData.code: '00' = success/paid, anything else = failed/cancelled
+	// webhookData.code: '00' = success/paid, anything else = failed
 	const orderCode = webhookData.orderCode;
-	const status = webhookData.code === '00' ? 'PAID' : 'CANCELLED';
+	const status = webhookData.code === '00' ? 'PAID' : 'FAILED';
 
 	if (orderCode) {
 		try {
 			const existing = await getPayment(locals.redis, orderCode);
-			if (existing) {
-				await savePayment(locals.redis, orderCode, { ...existing, status });
+			if (existing && existing.status === 'PENDING') {
+				await savePayment(locals.redis, orderCode, {
+					...existing,
+					status,
+					payosCode: webhookData.code,
+					payosDesc: webhookData.desc
+				});
+			} else if (existing) {
+				console.log(`[webhook] ignored: orderCode=${orderCode} already in terminal state ${existing.status}`);
 			}
 		} catch (/** @type {unknown} */ err) {
 			console.error('[webhook] redis update failed:', err instanceof Error ? err.message : err);
