@@ -1,16 +1,16 @@
 import { createRedis } from '$lib/server/redis.js';
 import { createPayOS } from '$lib/server/payos.js';
 
-/** @type {import('@upstash/redis').Redis | null} */
+/** @type {import('$lib/server/redis.js').RedisHandle | null} */
 let _redis = null;
 
 /** @type {import('@payos/node').PayOS | null} */
 let _payos = null;
 
 /**
- * Lazy singleton for Upstash Redis.
+ * Lazy singleton for the Upstash Redis handle (client + key prefix).
  * Not instantiated at module level so `pnpm build` works without env vars.
- * @returns {import('@upstash/redis').Redis}
+ * @returns {import('$lib/server/redis.js').RedisHandle}
  */
 function getRedis() {
 	if (!_redis) _redis = createRedis();
