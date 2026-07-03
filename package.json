@@ -21,11 +21,6 @@
 		"@payos/node": "^2.0.0",
 		"@upstash/redis": "^1.38.0"
 	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild"
-		]
-	},
 	"devDependencies": {
 		"@eslint/js": "^9.0.0",
 		"@sveltejs/adapter-vercel": "^6.0.0",
